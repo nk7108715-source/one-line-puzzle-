@@ -66,7 +66,7 @@ function advance(){if(level===TOTAL){popup('ALL 1000 COMPLETE!','You finished th
 function showWin(){const messages=['CONGRATULATIONS!','YIPPEE!','GREAT JOB!','AMAZING!','BRILLIANT!'];popup(messages[(level-1)%messages.length],'Puzzle '+level+' completed! 🎉','NEXT PUZZLE →',false,'🏆');confetti();$('modalPrimary').onclick=advance}
 function rewarded(kind){popup('WATCH REWARDED AD?',kind==='hint'?'Watch an ad to reveal a useful next dot.':'Watch an ad to skip this puzzle.','WATCH DEMO AD',true,'🎬');$('modalPrimary').onclick=()=>{ // DEMO only. Never treat a real ad as rewarded without an SDK reward callback.
  close();if(kind==='skip'){advance();return}const n=findHint();if(n===null){status.textContent='No valid continuation from here. Try Undo or Retry.';return}hintAt=n;render();status.textContent='💡 Highlighted dot shows the next step.';
- }} }
+ }}
 function findHint(){// Euler-trail completion by Hierholzer on unused edges, starting at current vertex.
  const remain=game.edges.map((e,i)=>({e,i})).filter(o=>!used.has(o.i));if(!remain.length)return null;
  const degrees=Array(game.pts.length).fill(0);for(const {e:[a,b]} of remain){degrees[a]++;degrees[b]++}
