@@ -1,81 +1,51 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080f25"><title>One Line Puzzle — Geometry Edition</title><style>
-:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#eaf7ff;background:#080f25}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 50% 4%,#182b63,#080f25 58%);overscroll-behavior:none}.app{max-width:560px;margin:auto;min-height:100dvh;display:flex;flex-direction:column;padding:16px 14px max(12px,env(safe-area-inset-bottom));gap:12px}.top{display:flex;align-items:center;justify-content:space-between}.brand{font-size:18px;font-weight:900;letter-spacing:.5px;color:#67e8f9;text-shadow:0 0 16px #0891b2}.pill{border:1px solid #345c8b;border-radius:100px;padding:8px 12px;color:#b4d8ff;font-size:13px;background:#152443}.sub{color:#9cafd3;font-size:13px;text-align:center}.board{flex:1;min-height:280px;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid #264c79;border-radius:22px;background:radial-gradient(circle,#13254a,#0b1530 70%);box-shadow:inset 0 0 32px #081126,0 8px 30px #030817;overflow:hidden;touch-action:none}.board svg{width:100%;height:100%;max-height:66dvh;min-height:280px;touch-action:none;user-select:none}.edge{stroke:#7186a6;stroke-width:3;stroke-linecap:round;opacity:.7}.done{stroke:#29e4ff;stroke-width:5;filter:drop-shadow(0 0 4px #16d9ff);opacity:1}.node{fill:#d7f9ff;stroke:#27d7ff;stroke-width:2}.active{fill:#ffe082;stroke:#fbbf24;stroke-width:3;filter:drop-shadow(0 0 6px #fbbf24)}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.btn{appearance:none;border:1px solid #35588b;background:linear-gradient(#20345c,#14233f);color:#eaf7ff;border-radius:13px;min-height:56px;font-weight:750;font-size:13px;cursor:pointer}.btn:active{transform:scale(.97)}.btn small{display:block;font-size:18px;margin-bottom:2px}.btn:disabled{opacity:.38}.hint{color:#ffe38c}.skip{color:#dcb6ff}.status{text-align:center;font-size:12px;color:#a8c2e4;min-height:18px}.ad{min-height:54px;border:1px dashed #455774;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7e92b1;font-size:12px;background:#101b32}.ad.hidden{display:none}.overlay{position:fixed;inset:0;background:#050c1cde;display:none;align-items:center;justify-content:center;padding:20px;z-index:10;overflow:hidden}.overlay.show{display:flex}.modal{width:min(100%,390px);position:relative;z-index:2;text-align:center;border:1px solid #3776a8;background:linear-gradient(155deg,#1d3264,#0c1937);border-radius:24px;padding:28px 20px;box-shadow:0 0 50px #00d9ff24}.modal h1{margin:6px 0;font-size:clamp(25px,7vw,36px);color:#fce47e;text-shadow:0 0 16px #eab30877}.modal p{color:#c4d7f1}.primary{width:100%;border:0;background:linear-gradient(90deg,#0891b2,#2563eb);color:white;border-radius:14px;padding:15px;font-weight:900;font-size:16px;cursor:pointer}.secondary{width:100%;border:1px solid #42648d;background:#182b4d;color:#d9ecff;border-radius:12px;padding:12px;margin-top:9px;cursor:pointer}.burst{position:absolute;inset:0;pointer-events:none}.particle{position:absolute;width:8px;height:13px;border-radius:2px;animation:explode 1.8s ease-out forwards;left:50%;top:45%;background:var(--c)}@keyframes explode{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(700deg);opacity:0}}.help{font-size:12px;color:#7e9abf;text-align:center}#hintMarker{pointer-events:none}@media(max-height:670px){.app{gap:7px;padding-top:8px}.board{min-height:230px}.board svg{min-height:230px;max-height:53dvh}.btn{min-height:47px}}
-</style></head><body><main class="app"><div class="top"><div class="brand">✦ ONE LINE <span style="color:#a78bfa">PUZZLE</span></div><div class="pill" id="counter">1 / 1000</div></div><div class="sub">Trace every edge once • Lift your finger anytime</div><div class="board" id="board"><svg id="svg" viewBox="0 0 400 400" aria-label="Interactive geometric puzzle"></svg></div><div class="status" id="status">Tap a glowing dot to start</div><div class="controls"><button class="btn hint" id="hint"><small>💡</small>Hint</button><button class="btn" id="undo"><small>↶</small>Undo</button><button class="btn" id="retry"><small>↻</small>Retry</button><button class="btn skip" id="skip"><small>⏭</small>Skip</button></div><div class="ad" id="banner">Banner Ad • Android AdMob placement (demo)</div><div class="help">Progress is saved on this device • No level selection</div></main><div class="overlay" id="overlay"><div class="burst" id="burst"></div><div class="modal"><div style="font-size:48px" id="emoji">🏆</div><h1 id="modalTitle">CONGRATULATIONS!</h1><p id="modalText">Puzzle complete!</p><button class="primary" id="modalPrimary">NEXT PUZZLE →</button><button class="secondary" id="modalCancel" style="display:none">Cancel</button></div></div><script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>One Line Geometry</title><style>*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0%,#192d60,#060b1c 70%);color:white;font-family:system-ui,sans-serif;min-height:100dvh;display:flex;justify-content:center}.app{width:min(100%,520px);padding:18px 14px 12px;display:flex;flex-direction:column;gap:14px}header{display:flex;justify-content:space-between;align-items:center}h1{font-size:19px;margin:0;color:#6deaff;letter-spacing:1px}small{color:#a4b5d8}.board{background:#0d1835;border:1px solid #34517d;border-radius:22px;box-shadow:0 0 28px #0b5fb733;touch-action:none;aspect-ratio:1;position:relative;overflow:hidden}svg{width:100%;height:100%;touch-action:none}.edge{stroke:#526785;stroke-width:3.2;stroke-linecap:round}.done{stroke:#20f1dc;stroke-width:5;filter:drop-shadow(0 0 4px #18e7d9)}.node{fill:#d9faff;stroke:#2bb8f3;stroke-width:2}.active{fill:#ffdf6b;stroke:#ff9f2c;stroke-width:3}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}button{background:#1b2e55;color:white;border:1px solid #355987;border-radius:13px;padding:13px 5px;font-weight:700;font-size:14px}button:active{transform:scale(.97)}.primary{background:linear-gradient(100deg,#057ca9,#4d45cf);border:0}.status{text-align:center;min-height:24px;color:#b6c9e9;font-size:13px}.ad{margin-top:auto;text-align:center;background:#121e36;border:1px dashed #49607d;border-radius:9px;padding:12px;color:#8494b2;font-size:12px}.overlay{position:fixed;inset:0;background:#030817c9;display:none;align-items:center;justify-content:center;padding:22px;z-index:5}.overlay.show{display:flex}.modal{background:#142448;border:1px solid #55c5ff;border-radius:24px;padding:27px 20px;text-align:center;max-width:340px;width:100%;box-shadow:0 0 45px #127ed366}.modal h2{color:#ffda68;font-size:27px}.modal button{width:100%;margin-top:10px}.firework{font-size:48px;animation:pop .65s infinite alternate}@keyframes pop{to{transform:scale(1.2) rotate(12deg)}}.note{font-size:12px;color:#829ac0;text-align:center}</style></head><body><main class="app"><header><div><h1>✦ ONE LINE</h1><small>GEOMETRY EDITION</small></div><strong id="count">1 / 20</strong></header><div class="board"><svg id="board" viewBox="0 0 400 400" aria-label="Interactive geometry puzzle"></svg></div><div class="status" id="status">Touch a dot, then connect each line once</div><div class="controls"><button id="hint">💡 Hint</button><button id="undo">↶ Undo</button><button id="retry">⟳ Retry</button><button id="skip">⏭ Skip</button></div><button id="next" class="primary" style="display:none">NEXT PUZZLE →</button><div class="note">Lift your finger anytime. Tap or drag between dots.</div><div class="ad">Banner Ad — Demo Placeholder (Android AdMob later)</div></main><div class="overlay" id="overlay"><div class="modal"><div class="firework">🎆🎉🎇</div><h2 id="message">CONGRATULATIONS!</h2><p id="sub">Puzzle completed!</p><button class="primary" id="modalNext">NEXT PUZZLE →</button><button id="close">Stay Here</button></div></div><script>
 'use strict';
-// The GitHub Pages build contains a rewarded-ad DEMO. Real AdMob requires an Android wrapper and SDK.
-const TOTAL=1000, KEY='oneLineGeometryV3';
-const $=id=>document.getElementById(id),svg=$('svg'),status=$('status');
-const ns='http://www.w3.org/2000/svg';
-function rng(seed){let s=(seed+1)*2654435761>>>0;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return(s>>>0)/4294967296}}
-function generate(level){
- const rand=rng(level+307),pts=[],edges=[],keys=new Set();
- function point(x,y){pts.push({x,y});return pts.length-1}
- function edge(a,b){if(a===b)return;const k=[a,b].sort((x,y)=>x-y).join(':');if(!keys.has(k)){keys.add(k);edges.push([a,b])}}
- function cycle(ids){for(let i=0;i<ids.length;i++)edge(ids[i],ids[(i+1)%ids.length])}
- // Build a connected Eulerian graph as a union of edge-disjoint cycles.
- // A shared vertex is allowed; every vertex therefore has even degree.
- const sides=3+Math.floor(rand()*5),rotation=rand()*Math.PI*2;
- const base=Array.from({length:sides},(_,i)=>point(200+95*Math.cos(rotation+2*Math.PI*i/sides),200+95*Math.sin(rotation+2*Math.PI*i/sides)));
- cycle(base);
- const count=Math.min(4+Math.floor(level/35),28);
- const anchors=base.slice();
- for(let j=0;j<count;j++){
-  const a=anchors[Math.floor(rand()*anchors.length)],p=pts[a],ang=Math.atan2(p.y-200,p.x-200)+(rand()-.5)*1.7;
-  const radius=14+rand()*20,vertices=2+Math.floor(rand()*3),ids=[a];
-  // New vertices are unique, and the small polygon meets the existing graph only at its anchor.
-  const centerAng=ang+(rand()-.5)*1.2;
-  for(let k=0;k<vertices;k++){
-   const t=centerAng+(k-(vertices-1)/2)*(.5+rand()*.22);
-   const dist=radius*(1.15+rand()*.3);
-   const x=Math.max(14,Math.min(386,p.x+Math.cos(t)*dist));
-   const y=Math.max(14,Math.min(386,p.y+Math.sin(t)*dist));
-   ids.push(point(x,y));
-  }
-  // Avoid degenerate geometry by rejecting any cycle with coincident nodes.
-  if(ids.slice(1).some(id=>Math.hypot(pts[id].x-p.x,pts[id].y-p.y)<5)){pts.splice(pts.length-vertices,vertices);continue}
-  cycle(ids);anchors.push(...ids.slice(1));
- }
- // Normalize to leave a margin; makes the geometric drawings fully visible.
- const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y),minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
- const scale=Math.min(330/Math.max(1,maxx-minx),330/Math.max(1,maxy-miny));
- for(const p of pts){p.x=200+(p.x-(minx+maxx)/2)*scale;p.y=200+(p.y-(miny+maxy)/2)*scale}
- return {pts,edges};
-}
-let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch{}
-let level=Math.max(1,Math.min(TOTAL,Number(saved.level)||1)),game,used=new Set(),trail=[],current=null,drag=false,completed=false,hintAt=null;
-function persist(){try{localStorage.setItem(KEY,JSON.stringify({level,used:[...used],trail,completed}))}catch{}}
-function setup(restore=false){game=generate(level);used=new Set();trail=[];current=null;completed=false;hintAt=null;
- if(restore&&Number(saved.level)===level){const old=Array.isArray(saved.trail)?saved.trail:[];let valid=true;for(let i=1;i<old.length;i++){const a=old[i-1],b=old[i],idx=game.edges.findIndex(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));if(idx<0||used.has(idx)){valid=false;break}used.add(idx)}if(valid&&old.every(x=>Number.isInteger(x)&&x>=0&&x<game.pts.length)){trail=old;current=old.at(-1)??null;completed=used.size===game.edges.length}else{used.clear()}}
- $('counter').textContent=level+' / '+TOTAL;render();persist();if(completed)showWin();}
-function el(tag,attrs){const x=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))x.setAttribute(k,v);return x}
-function render(){svg.replaceChildren();const done=used;
- game.edges.forEach(([a,b],i)=>{const p=game.pts[a],q=game.pts[b];svg.appendChild(el('line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'edge'+(done.has(i)?' done':'')}))});
- game.pts.forEach((p,i)=>{svg.appendChild(el('circle',{cx:p.x,cy:p.y,r:current===i?6.2:4.5,class:current===i?'active':'node'}))});
- if(hintAt!==null){const p=game.pts[hintAt];svg.appendChild(el('circle',{id:'hintMarker',cx:p.x,cy:p.y,r:15,fill:'none',stroke:'#facc15','stroke-width':3,'stroke-dasharray':'4 4'}))}
- status.textContent=completed?'🎉 All lines completed!':used.size+' / '+game.edges.length+' lines traced';$('undo').disabled=trail.length<2||completed;
-}
-function nearest(e){const rect=svg.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width*400,y=(e.clientY-rect.top)/rect.height*400;let best=-1,d=Infinity;game.pts.forEach((p,i)=>{const dist=Math.hypot(p.x-x,p.y-y);if(dist<d){d=dist;best=i}});return d<Math.max(16,Math.min(27,400/rect.width*23))?best:-1}
-function touchNode(n){if(n<0||completed)return;if(current===null){current=n;trail=[n];render();persist();return}if(n===current)return;const idx=game.edges.findIndex(([a,b])=>(a===current&&b===n)||(a===n&&b===current));if(idx<0||used.has(idx))return;used.add(idx);trail.push(n);current=n;hintAt=null;completed=used.size===game.edges.length;render();persist();if(completed)showWin()}
-svg.addEventListener('pointerdown',e=>{drag=true;svg.setPointerCapture(e.pointerId);touchNode(nearest(e))});svg.addEventListener('pointermove',e=>{if(drag)touchNode(nearest(e))});svg.addEventListener('pointerup',()=>drag=false);svg.addEventListener('pointercancel',()=>drag=false);
-$('undo').onclick=()=>{if(trail.length<2||completed)return;const b=trail.pop(),a=trail.at(-1),idx=game.edges.findIndex(e=>(e[0]===a&&e[1]===b)||(e[1]===a&&e[0]===b));used.delete(idx);current=a;hintAt=null;render();persist()};
-$('retry').onclick=()=>{used.clear();trail=[];current=null;completed=false;hintAt=null;render();persist()};
-function popup(title,description,action,cancel=false,emoji='✨'){ $('modalTitle').textContent=title;$('modalText').textContent=description;$('emoji').textContent=emoji;$('modalPrimary').textContent=action;$('modalCancel').style.display=cancel?'block':'none';$('burst').replaceChildren();$('overlay').classList.add('show')}
-function close(){ $('overlay').classList.remove('show') }$('modalCancel').onclick=close;
-function confetti(){const colors=['#22d3ee','#facc15','#f472b6','#a78bfa','#34d399'];for(let i=0;i<85;i++){const p=document.createElement('span');p.className='particle';p.style.setProperty('--c',colors[i%5]);const angle=i*2.39996,dist=75+((i*47)%250);p.style.setProperty('--x',Math.cos(angle)*dist+'px');p.style.setProperty('--y',Math.sin(angle)*dist+'px');p.style.animationDelay=(i%9)*.028+'s';$('burst').appendChild(p)}}
-function advance(){if(level===TOTAL){popup('ALL 1000 COMPLETE!','You finished the Geometry Edition!','PLAY AGAIN',false,'🏆');$('modalPrimary').onclick=()=>{level=1;close();setup()};return}level++;close();setup()}
-function showWin(){const messages=['CONGRATULATIONS!','YIPPEE!','GREAT JOB!','AMAZING!','BRILLIANT!'];popup(messages[(level-1)%messages.length],'Puzzle '+level+' completed! 🎉','NEXT PUZZLE →',false,'🏆');confetti();$('modalPrimary').onclick=advance}
-function rewarded(kind){popup('WATCH REWARDED AD?',kind==='hint'?'Watch an ad to reveal a useful next dot.':'Watch an ad to skip this puzzle.','WATCH DEMO AD',true,'🎬');$('modalPrimary').onclick=()=>{ // DEMO only. Never treat a real ad as rewarded without an SDK reward callback.
- close();if(kind==='skip'){advance();return}const n=findHint();if(n===null){status.textContent='No valid continuation from here. Try Undo or Retry.';return}hintAt=n;render();status.textContent='💡 Highlighted dot shows the next step.';
- }}
-function findHint(){// Euler-trail completion by Hierholzer on unused edges, starting at current vertex.
- const remain=game.edges.map((e,i)=>({e,i})).filter(o=>!used.has(o.i));if(!remain.length)return null;
- const degrees=Array(game.pts.length).fill(0);for(const {e:[a,b]} of remain){degrees[a]++;degrees[b]++}
- let start=current;if(start===null){const odd=degrees.map((d,i)=>d%2?i:-1).filter(i=>i>=0);start=odd[0]??degrees.findIndex(d=>d>0)}
- if(start<0||degrees[start]===0)return null;
- const adj=game.pts.map(()=>[]);for(const {e:[a,b],i} of remain){adj[a].push([b,i]);adj[b].push([a,i])}
- const stack=[start],path=[],seen=new Set();while(stack.length){const v=stack.at(-1);let next;while(adj[v].length){const o=adj[v].pop();if(!seen.has(o[1])){next=o;break}}if(next){seen.add(next[1]);stack.push(next[0])}else path.push(stack.pop())}
- if(seen.size!==remain.length)return null;const order=path.reverse();return order[1]??null;
-}
-$('hint').onclick=()=>rewarded('hint');$('skip').onclick=()=>rewarded('skip');
-setup(true);
+// Each template is a connected geometric graph with exactly 0 or 2 odd-degree vertices.
+// Each shape is a deterministic Eulerian walk mapped onto symmetric coordinates.
+const templates=[
+ [[0,0],[4,0],[4,4],[0,4],[2,2]],
+ [[2,0],[4,2],[2,4],[0,2],[2,2]],
+ [[2,0],[4,1],[4,3],[2,4],[0,3],[0,1],[2,2]],
+ [[0,0],[4,0],[4,4],[0,4],[2,0],[4,2],[2,4],[0,2],[2,2]],
+ [[2,0],[3,1],[4,2],[3,3],[2,4],[1,3],[0,2],[1,1],[2,2]],
+ [[0,0],[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[2,2]],
+ [[2,0],[4,1],[3,2],[4,3],[2,4],[0,3],[1,2],[0,1],[2,2]],
+ [[0,0],[4,0],[4,4],[0,4],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[0,0],[2,2]],
+ [[0,1],[2,0],[4,1],[4,3],[2,4],[0,3],[1,2],[3,2],[2,2]],
+ [[0,0],[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[2,0],[3,0],[4,1],[4,3],[3,4],[1,4],[0,3],[0,1],[1,0],[2,2]],
+ [[0,0],[4,0],[4,4],[0,4],[2,0],[4,2],[2,4],[0,2],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[2,0],[3,1],[4,0],[4,2],[3,3],[4,4],[2,4],[1,3],[0,4],[0,2],[1,1],[0,0],[2,2]],
+ [[0,0],[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[0,0],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[0,0],[1,0],[3,0],[4,0],[4,1],[4,3],[4,4],[3,4],[1,4],[0,4],[0,3],[0,1],[2,2]],
+ [[2,0],[4,1],[4,3],[2,4],[0,3],[0,1],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[0,0],[2,0],[4,0],[4,2],[4,4],[2,4],[0,4],[0,2],[1,1],[3,1],[3,3],[1,3],[2,2]],
+ [[2,0],[3,0],[4,1],[4,2],[4,3],[3,4],[2,4],[1,4],[0,3],[0,2],[0,1],[1,0],[1,1],[3,1],[3,3],[1,3],[2,2]]
+];
+// Build graph from visually intentional rings: outer boundary, central spokes and optional inner ring.
+function makePuzzle(i){const raw=templates[i],n=raw.length,center=n-1;let edges=[];function add(a,b){if(a===b)return;let k=[Math.min(a,b),Math.max(a,b)];if(!edges.some(e=>e[0]===k[0]&&e[1]===k[1]))edges.push(k)}
+// Sort perimeter points angularly, excluding center. All edges straight.
+let order=raw.slice(0,-1).map((p,j)=>({j,a:Math.atan2(p[1]-2,p[0]-2)})).sort((a,b)=>a.a-b.a).map(x=>x.j);
+for(let j=0;j<order.length;j++)add(order[j],order[(j+1)%order.length]);
+// Spokes added in pairs, keeping degree even at the hub and at outer vertices by using triangles.
+const candidates=[];for(let j=0;j<order.length;j++){let a=order[j],b=order[(j+1)%order.length];if(raw[a][0]===2||raw[a][1]===2||raw[b][0]===2||raw[b][1]===2)candidates.push([a,b])}
+let chosen=candidates.length?candidates[(i*3)%candidates.length]:[order[0],order[1]];add(center,chosen[0]);add(center,chosen[1]);
+// Add 1-3 extra triangles on outer boundary using a nonadjacent hub-like vertex, each preserving Euler property.
+let extras=Math.min(3,Math.floor(i/6));for(let z=0;z<extras;z++){let a=order[(z*3+i)%order.length],b=order[(z*3+i+1)%order.length],c=order[(z*3+i+2)%order.length];if(!edges.some(e=>e.includes(a)&&e.includes(c))){add(a,c)}}
+// Normalize degrees by removing any chord that creates odd degrees, ensuring a real Euler circuit.
+let deg=Array(n).fill(0);edges.forEach(([a,b])=>{deg[a]++;deg[b]++});let odd=deg.map((d,j)=>d%2?j:-1).filter(j=>j>=0);if(odd.length>2){for(let j=edges.length-1;j>=order.length&&odd.length>2;j--){let [a,b]=edges[j];if(odd.includes(a)&&odd.includes(b)){edges.splice(j,1);deg[a]--;deg[b]--;odd=deg.map((d,k)=>d%2?k:-1).filter(k=>k>=0)}}}
+// Guaranteed fallback: the perimeter cycle alone is Eulerian.
+if(odd.length>2){edges=[];for(let j=0;j<order.length;j++)add(order[j],order[(j+1)%order.length]);}
+const used=new Set(edges.flat());const vertices=raw.map(([x,y])=>[45+x*77.5,45+y*77.5]);return {vertices,edges,used};}
+let level=Math.max(0,Math.min(19,Number(localStorage.getItem('geometry20_level')||0))),puzzle,selected=null,trail=[],done=new Set(),pointerDown=false,complete=false;
+const $=id=>document.getElementById(id),svg=$('board');function edgeIndex(a,b){return puzzle.edges.findIndex(([x,y])=>(x===a&&y===b)||(x===b&&y===a))}
+function render(){svg.innerHTML='';const NS='http://www.w3.org/2000/svg';const el=(name,attrs)=>{let e=document.createElementNS(NS,name);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));svg.appendChild(e);return e};puzzle.edges.forEach(([a,b],i)=>{const A=puzzle.vertices[a],B=puzzle.vertices[b];el('line',{x1:A[0],y1:A[1],x2:B[0],y2:B[1],class:'edge '+(done.has(i)?'done':'')})});puzzle.vertices.forEach(([x,y],i)=>{if(!puzzle.used.has(i))return;el('circle',{cx:x,cy:y,r:i===selected?8:6,class:i===selected?'active':'node'})});$('count').textContent=`${level+1} / 20`;$('next').style.display=complete?'block':'none';}
+function hit(e){let r=svg.getBoundingClientRect(),x=(e.clientX-r.left)*400/r.width,y=(e.clientY-r.top)*400/r.height,best=-1,dist=24;for(let i of puzzle.used){let [a,b]=puzzle.vertices[i],d=Math.hypot(a-x,b-y);if(d<dist){dist=d;best=i}}return best}
+function touchNode(v){if(v<0||complete)return;if(selected===null){selected=v;trail=[v];render();return}if(v===selected)return;let idx=edgeIndex(selected,v);if(idx<0||done.has(idx))return;done.add(idx);trail.push(v);selected=v;if(done.size===puzzle.edges.length){complete=true;localStorage.setItem('geometry20_level',String(Math.min(19,level+1)));$('status').textContent='All lines completed!';const msgs=['CONGRATULATIONS!','GREAT JOB!','YIPPEE!','AMAZING!','EXCELLENT!'];$('message').textContent=msgs[level%msgs.length];$('sub').textContent=`Puzzle ${level+1} completed!`;$('modalNext').textContent=level===19?'PLAY AGAIN':'NEXT PUZZLE →';$('overlay').classList.add('show')}else $('status').textContent=`${done.size} / ${puzzle.edges.length} lines traced`;render()}
+svg.addEventListener('pointerdown',e=>{pointerDown=true;svg.setPointerCapture(e.pointerId);touchNode(hit(e))});svg.addEventListener('pointermove',e=>{if(pointerDown)touchNode(hit(e))});svg.addEventListener('pointerup',()=>pointerDown=false);svg.addEventListener('pointercancel',()=>pointerDown=false);
+function load(){puzzle=makePuzzle(level);selected=null;trail=[];done=new Set();complete=false;$('overlay').classList.remove('show');$('status').textContent='Touch a dot, then connect each line once';render()}
+$('retry').onclick=load;$('undo').onclick=()=>{if(complete)return;if(trail.length>1){let b=trail.pop(),a=trail[trail.length-1];done.delete(edgeIndex(a,b));selected=a}else{selected=null;trail=[]}$('status').textContent=`${done.size} / ${puzzle.edges.length} lines traced`;render()};
+function demoReward(kind){if(!confirm('Demo rewarded ad: Watch simulated ad to '+kind+'?\n\nReal ads require Android AdMob integration.'))return; if(kind==='skip'){level=Math.min(19,level+1);localStorage.setItem('geometry20_level',String(level));load()}else{let odd=puzzle.vertices.map((_,i)=>puzzle.edges.filter(e=>e.includes(i)).length%2?i:-1).filter(x=>x>=0);$('status').textContent=odd.length?'Hint: start at a glowing endpoint (odd-degree dot)':'Hint: start at any dot; follow unused lines';}}$('hint').onclick=()=>demoReward('hint');$('skip').onclick=()=>demoReward('skip');function next(){level=level===19?0:level+1;localStorage.setItem('geometry20_level',String(level));load()}$('next').onclick=next;$('modalNext').onclick=next;$('close').onclick=()=>$('overlay').classList.remove('show');load();
 </script></body></html>
