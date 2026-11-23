@@ -1,0 +1,39 @@
+import networkx as nx, math
+import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
+from matplotlib import patheffects
+from pathlib import Path
+
+# Edge-disjoint squares that meet at vertices: every node has degree 2 or 4.
+G=nx.Graph()
+for i in range(8):
+    for j in range(8):
+        if (i+j)%2==0:
+            cyc=[(i,j),(i+1,j),(i+1,j+1),(i,j+1)]
+            for a,b in zip(cyc,cyc[1:]+cyc[:1]):
+                G.add_edge(a,b)
+assert nx.is_connected(G)
+assert set(dict(G.degree()).values()) <= {2,4}
+assert nx.is_eulerian(G)
+route=list(nx.eulerian_circuit(G))
+assert len(route)==G.number_of_edges() and len(set(frozenset(e) for e in route))==len(route)
+print(f"Verified: {G.number_of_nodes()} dots, {G.number_of_edges()} straight lines, {len(route)}-step Euler circuit; degrees {sorted(set(dict(G.degree()).values()))}")
+
+p={v:((v[0]-v[1])*.78,(v[0]+v[1]-8)*.62) for v in G.nodes()}
+fig,ax=plt.subplots(figsize=(9,9),facecolor='#071127')
+ax.set_facecolor('#071127')
+segs=[[p[a],p[b]] for a,b in G.edges()]
+for lw,alpha in [(13,.06),(7,.15),(3.4,1)]:
+    ax.add_collection(LineCollection(segs,colors='#30eaff',linewidths=lw,alpha=alpha,zorder=2))
+xs,ys=zip(*p.values())
+ax.scatter(xs,ys,s=170,c='#9c5cff',alpha=.3,zorder=3)
+ax.scatter(xs,ys,s=52,c='#f5faff',edgecolors='#6feaff',linewidths=.8,zorder=4)
+ax.set_aspect('equal')
+ax.set_xlim(min(xs)-1,max(xs)+1);ax.set_ylim(min(ys)-1.2,max(ys)+1.5)
+ax.axis('off')
+ax.set_title('ONE LINE PUZZLE  •  VERIFIED GEOMETRY',color='white',fontsize=15,fontweight='bold',pad=22)
+ax.text(.5,.025,f'{G.number_of_nodes()} DOTS  •  {G.number_of_edges()} LINES  •  ALL DOTS DEGREE 2 OR 4  •  SOLVABLE',transform=ax.transAxes,ha='center',color='#89f4ff',fontsize=8)
+out='/mnt/data/verified_geometry_puzzle.png'
+fig.savefig(out,dpi=170,facecolor=fig.get_facecolor(),bbox_inches='tight')
+plt.close(fig)
+print(out)
